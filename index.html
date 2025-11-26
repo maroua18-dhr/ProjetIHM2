@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Champ</title>
+<link href="https://fonts.googleapis.com/css2?family=Chewy&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+  font-family:'Comic Neue',cursive;
+  background:
+    linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)),
+    url('pics/desktop-wallpaper-kids-backgrounds-for-kids-kids-game.jpg') center/cover no-repeat;
+
+  height: 100vh;          
+  width: 100%;
+  overflow: hidden;       
+  margin: 0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  padding: 0;              
+}
+
+
+
+
+
+
+/* Main card */
+.card{
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 25px 40px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 380px;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: floatBox 3s ease-in-out infinite;
+}
+
+      @keyframes floatBox {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+      }
+
+.title{
+  font-family:'Chewy';
+  font-size:2.5rem;
+  color:#ff7e67;
+  text-shadow:2px 2px #bba677;
+  margin-bottom:10px;
+}
+
+.subtitle{
+    color:#1a4b28;
+    text-shadow:2px 2px #d9c7c7;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:30px;
+}
+
+
+
+.panda-container {
+  width: 99px;
+  height: 99x;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  background: #f0f8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pop 0.8s ease;
+}
+@keyframes pop{
+  0%{transform:scale(.2);}
+  100%{transform:scale(1);} 
+}
+
+.panda-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.panda-container:hover .panda-img {
+  transform: scale(1.05);
+}
+
+.play-btn{
+  background:linear-gradient(#89d36f,#5ebd4f);
+  color:rgb(255, 255, 255);
+  font-family:'Chewy';
+  font-size:1.4rem;
+  padding:12px 20px;
+  border-radius:50px;
+  border:none;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  box-shadow:0 12px 22px rgba(0,0,0,.2);
+  transition:transform .25s, box-shadow .25s;
+}
+.play-btn:hover{
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 18px 30px rgba(0,0,0,.25);
+}
+
+@media (max-width: 480px) {
+  .title { font-size: 2.1rem; }
+  .subtitle { font-size: 1rem; }
+  .play-btn { font-size: 1.2rem; padding: 10px 18px; }
+  .card { padding: 22px 28px; }
+}
+    
+        /* Bouton Paramètres */
+.settings-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: 2px solid #18d14d;
+}
+
+.settings-btn:hover {
+    transform: scale(1.1) rotate(30deg);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Menu Paramètres */
+.settings-menu {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+    z-index: 1000;
+    border: 1px solid rgba(255, 126, 103, 0.2);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.settings-menu.active {
+    display: flex;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Comic Neue', cursive;
+    font-weight: 600;
+    color: #333;
+}
+
+.settings-item:hover {
+    background: rgba(255, 126, 103, 0.1);
+    transform: translateX(-5px);
+}
+
+.settings-icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.settings-text {
+    flex: 1;
+    font-size: 14px;
+}
+
+.settings-icon.custom-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    font-size: 0; 
+}
+
+/* États différents pour les icônes */
+.settings-icon.sound-on {
+    content: url('parametre/volume.png');
+}
+
+.settings-icon.sound-off {
+    content: url('parametre/no-sound.png');
+}
+
+.settings-icon.music-on {
+    content: url('parametre/musical-note.png');
+}
+
+.settings-icon.music-off {
+    content: url('parametre/note.png');
+}
+/* Responsive */
+@media (max-width: 480px) {
+    .settings-btn {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .settings-menu {
+        top: 70px;
+        right: 15px;
+        min-width: 180px;
+    }
+    
+    .settings-text {
+        font-size: 13px;
+    }
+}
+
+/* Pour les très petits écrans */
+@media (max-width: 360px) {
+    .settings-menu {
+        min-width: 170px;
+        right: 10px;
+    }
+    
+    .settings-item {
+        padding: 10px;
+    }
+}
+
+/* Empêcher le zoom sur le bouton */
+.settings-btn {
+    touch-action: manipulation;
+}
+
+/* Améliorer les interactions tactiles */
+.settings-item {
+    min-height: 44px; }
+
+/* Icône du bouton paramètres */
+.settings-btn-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.settings-btn:hover .settings-btn-icon {
+    transform: rotate(30deg);
+}
+
+/* Fallback si l'image ne charge pas */
+.settings-btn:after {
+    
+    display: none;
+    font-size: 20px;
+}
+
+.settings-btn.icon-failed:after {
+    display: block;
+}
+.settings-btn.icon-failed .settings-btn-icon {
+    display: none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="settings-btn" id="settingsBtn">
+     <img src="parametre/parametres.png" alt="Paramètres" class="settings-btn-icon">
+</div>
+
+<div class="settings-menu" id="settingsMenu">
+    <div class="settings-item" onclick="toggleSound()">
+        <img src="parametre/volume.png" alt="Son" class="settings-icon custom-icon">
+        <span class="settings-text">Son: Activé</span>
+    </div>
+    <div class="settings-item" onclick="toggleMusic()">
+        <img src="parametre/no-sound.png" alt="Musique" class="settings-icon custom-icon">
+        <span class="settings-text">Musique: Désactivé</span>
+    </div>
+    <div class="settings-item" onclick="toggleLanguage()">
+        <img src="parametre/france.png" alt="Langue" class="settings-icon custom-icon">
+        <span class="settings-text">Langue: Français</span>
+    </div>
+    <div class="settings-item" onclick="showLogin()">
+        <img src="parametre/user.png" alt="Connexion" class="settings-icon custom-icon">
+        <span class="settings-text">Se connecter</span>
+    </div>
+</div>
+
+<div class="hill"></div>
+<div class="hill hill2"></div>
+<div class="card">
+   <div class="panda-container">
+        <!-- Replace with your panda image path -->
+        <img src="pics/714043.png" alt="Cute Panda" class="panda-img"></div>
+  <div class="title">Champ Adventure!</div>
+  <div class="subtitle">Trie tes déchets, sauve la planète ! </div>
+  <a href="game.html" class="play-btn">  Let's Play! </a>
+</div>
+
+</body>
+
+<script>
+// État des paramètres
+let soundEnabled = true;
+let musicEnabled = false;
+
+// Éléments DOM
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsMenu = document.getElementById('settingsMenu');
+
+// Ouvrir/fermer le menu paramètres
+settingsBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    settingsMenu.classList.toggle('active');
+});
+
+// Fermer le menu en cliquant ailleurs
+document.addEventListener('click', function(e) {
+    if (!settingsMenu.contains(e.target) && !settingsBtn.contains(e.target)) {
+        settingsMenu.classList.remove('active');
+    }
+});
+
+// Fonctions des paramètres
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    const soundText = document.querySelector('.settings-item:nth-child(1) .settings-text');
+    const soundIcon = document.querySelector('.settings-item:nth-child(1) .settings-icon');
+    
+    if (soundEnabled) {
+        soundText.textContent = 'Son: Activé';
+        soundIcon.src = 'parametre/volume.png';
+        soundIcon.alt = 'Son activé';
+    } else {
+        soundText.textContent = 'Son: Désactivé';
+        soundIcon.src = 'parametre/no-sound.png';
+        soundIcon.alt = 'Son désactivé';
+    }
+    
+    localStorage.setItem('gameSound', soundEnabled);
+}
+
+function toggleMusic() {
+    musicEnabled = !musicEnabled;
+    const musicText = document.querySelector('.settings-item:nth-child(2) .settings-text');
+    const musicIcon = document.querySelector('.settings-item:nth-child(2) .settings-icon');
+    
+    if (musicEnabled) {
+        musicText.textContent = 'Musique: Activé';
+        musicIcon.src = 'parametre/musical-note.png';
+        musicIcon.alt = 'Musique activée';
+    } else {
+        musicText.textContent = 'Musique: Désactivé';
+        musicIcon.src = 'parametre/note.png';
+        musicIcon.alt = 'Musique désactivée';
+    }
+    
+    localStorage.setItem('gameMusic', musicEnabled);
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedSound = localStorage.getItem('gameSound');
+    const savedMusic = localStorage.getItem('gameMusic');
+    
+    if (savedSound !== null) {
+        soundEnabled = savedSound === 'true';
+        toggleSound(); // Pour mettre à jour l'affichage
+    }
+    
+    if (savedMusic !== null) {
+        musicEnabled = savedMusic === 'true';
+        toggleMusic(); // Pour mettre à jour l'affichage
+    }
+});
+</script>
+</html>

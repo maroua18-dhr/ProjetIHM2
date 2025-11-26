@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Champ </title>
+
+    <!-- Icons & fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --bg1:#a6f7b7;
+            --bg2:#94ceff;
+            --accent:#ffe27a;
+            --muted:#9cb6d6;
+        }
+
+        *{
+        box-sizing:border-box;
+        margin:0;
+        padding:0
+        }
+
+        html,body{
+        height:100%
+        }
+
+        body{
+            font-family:'Comic Neue',cursive;
+            background:linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)), url("pics/desktop-wallpaper-kids-backgrounds-for-kids-kids-game.jpg")center/cover no-repeat;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:10px;
+            overflow-x: hidden;
+        }
+
+        
+        .container{
+            width:100%;
+            height: auto;
+            max-height: none;
+            max-width:1200px;
+            background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
+            border-radius:20px;
+            padding:15px;
+            box-shadow:0 30px 60px rgba(17,24,39,0.18);
+           
+        }
+
+        .header{
+            display:flex;
+            align-items:center;
+            gap:14px;
+            margin-bottom:12px;
+            flex-wrap:wrap;
+        }
+
+        .logo{
+            font-size:50px;
+            color:var(--muted)
+        
+        }
+
+        .title{
+            font-family:'Chewy',cursive;
+            color:#ff6b6b;
+            font-size:29px;
+            text-shadow:3px 3px 0 #ffd166
+        }
+
+        .title-box{
+            flex:1
+        }
+
+        .main{
+            display:grid;
+            grid-template-columns: 1fr auto; /* Changed to allow side-by-side layout */
+            gap:20px;
+            align-items:start;
+        }
+
+        /* Game area */
+        .game-area{
+            background:linear-gradient(180deg,#fff,#fbfdff);
+            padding:16px;
+            border-radius:12px;
+            min-height:420px;
+            box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+
+        .section-title{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            color:var(--bg2);
+            font-weight:700;
+            margin-bottom:12px
+        }
+
+
+        /* Bins grid - Improved for mobile */
+       
+         .bin-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            padding-top: 15px;
+        }
+
+
+            .bin-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;     
+            max-width: 120px;
+            height: auto; 
+            padding: 8px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+        .bin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+            .bin-icon {
+            width: 70%;
+            max-width: 70px;
+            height: auto;
+            object-fit: contain; /* keeps aspect ratio */
+            margin-bottom: 8px;
+        }
+        
+        .bin-label {
+            font-family: 'Chewy', cursive;
+            font-size: 0.9em;
+            padding: 5px 8px;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+            word-break: break-word;
+        }
+
+        /* Bin Colors */
+        .bin-plastic { background: #cfe2ff; color: #007bff; border: 3px solid #007bff; }
+        .bin-paper { background: #d4edda; color: #28a745; border: 3px solid #28a745; }
+        .bin-glass { background: #f8d7da; color: #dc3545; border: 3px solid #dc3545; }
+        .bin-food { background: #fff3cd; color: #ffc107; border: 3px solid #ffc107; }
+        .bin-trash { background: #e9ecef; color: #343a40; border: 3px solid #343a40; }
+        .bin-metal { background: #e9d8fd; color: #805ad5; border: 3px solid #805ad5; }
+
+        .bin-card.drag-over {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 0 5px var(--accent);
+        }
+
+        .bin-card.drag-over .bin-icon {
+            transform: scale(1.1);
+        }
+
+      
+        /* Items - Improved for mobile */
+        .items{
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(80px,1fr));
+            gap:10px;
+            margin-top:6px;
+        }
+        .item{
+            background:#fff;
+            border-radius:12px;
+            padding:12px 6px;
+            text-align:center;
+            box-shadow:0 6px 18px rgba(0,0,0,0.08);
+            cursor:grab; 
+            user-select:none;
+            transition:transform .12s ease, box-shadow .12s ease, opacity .18s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation; /* Improves touch responsiveness */
+        }
+
+        .item.dragging{
+            opacity:0.92; 
+            transform:scale(1.04); 
+            cursor:grabbing; 
+            box-shadow:0 18px 36px rgba(0,0,0,0.16)}
+
+        .item .icon{
+            margin-bottom:6px
+        }
+
+        .item .icon img{
+            max-width:50px;
+            height:auto;
+            display:inline-block;
+            width:100%;
+        }
+
+        .item .name{
+            font-weight:800;
+            font-size:12px;
+            color:#333;
+            word-break: break-word;
+            text-align: center;
+        }
+
+        /* feedback */
+        .feedback{
+            margin:12px 0;
+            padding:12px;
+            border-radius:12px;
+            text-align:center;
+            font-weight:800;
+            display:none;
+            word-break: break-word;
+        }
+
+        .feedback.correct{
+            background:#C8E6C9;
+            border:3px solid #4CAF50;
+            color:#2E7D32
+        }
+
+        .feedback.wrong{
+            background:#FFCDD2;
+            border:3px solid #F44336;
+            color:#C62828
+        }
+        .feedback.fact{
+            background:#e3f2fd;
+            border:3px solid #2196f3;
+            color:#0d47a1;
+            font-style:italic;
+            font-weight:600
+        }
+
+        /* Right panel - Updated for side positioning */
+        .panel{
+            background:#fff;
+            padding:14px;
+            border-radius:12px;
+            box-shadow:0 8px 22px rgba(0,0,0,0.04);
+            width: 280px; /* Fixed width for side panel */
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .panel h3{
+            font-family:'Chewy';
+            color:#ff6b6b;
+            margin-bottom:10px;
+            text-align: center;
+        }
+
+        .fact{
+            background:#f8fff9;
+            padding:10px;
+            border-radius:8px;
+            margin-bottom:8px;
+            border-left:6px solid #4caf50;
+            word-break: break-word;
+        }
+
+        .controls{
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            justify-content:center;
+            margin-top:6px
+        }
+
+        .btn{
+            padding:8px 12px;
+            border-radius:999px;
+            border:none;
+            cursor:pointer;
+            font-weight:800;
+            white-space: nowrap;
+            touch-action: manipulation; /* Improves touch responsiveness */
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary{
+            background:var(--bg1);
+            color:#fff
+        }
+
+        .btn-primary.active-hint{
+            background:#ff6b6b
+        }
+
+        .btn-sound {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-sound.muted {
+            background: #ff6b6b;
+        }
+
+        .progress{
+            margin-top:10px;
+            text-align:center
+        }
+
+        .score{
+            font-size:20px;
+            color:#ff6b6b;
+            font-weight:900
+        }
+
+        .stars i{
+            font-size:18px;
+            margin:0 4px;
+            color:#ddd
+        }
+
+
+        /* Responsive adjustments - Improved for mobile */
+        /* === NOUVELLE SECTION RESPONSIVE CORRIGÉE === */
+
+/* Tablette */
+@media (max-width: 900px){
+    .main{
+        grid-template-columns:1fr;
+        gap: 15px;
+    }
+    
+    .panel {
+        width: 100%;
+        max-height: none;
+        order: 2;
+    }
+    
+    .game-area{
+        min-height:auto;
+        order: 1;
+    }
+    
+    .bin-area{
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .items{
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+}
+
+/* Mobile moyen */
+@media (max-width: 768px){
+   .header{
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+   }
+
+   .title{
+    font-size: 24px;
+   }
+   .logo{
+    font-size: 40px;
+   }
+   
+   .bin-area{
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .bin-card{
+        max-width: 100px;
+        padding: 6px;
+    }
+    
+    .bin-icon{
+        max-width: 50px;
+    }
+    
+    .bin-label{
+        font-size: 0.8em;
+        padding: 4px 6px;
+    }
+    
+    .items{
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .item{
+        padding: 10px 4px;
+        min-height: 80px;
+    }
+    
+    .item .icon img{
+        max-width: 40px;
+    }
+    
+    .item .name{
+        font-size: 11px;
+    }
+}
+
+/* Mobile petit */
+@media (max-width: 600px) {
+    body{
+        padding: 8px;
+        display: block;
+        overflow-y: auto;
+    }
+    
+    .container{
+        padding: 12px;
+        margin: 10px 0;
+    }
+    
+    .title{
+        font-size: 20px;
+    }
+    
+    .bin-area{
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    
+    .bin-card{
+        max-width: 90px;
+        padding: 5px;
+    }
+    
+    .bin-icon{
+        max-width: 40px;
+    }
+    
+    .bin-label{
+        font-size: 0.75em;
+        padding: 3px 4px;
+    }
+    
+    .items{
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    
+    .item{
+        padding: 8px 3px;
+        min-height: 70px;
+    }
+    
+    .item .icon img{
+        max-width: 35px;
+    }
+    
+    .item .name{
+        font-size: 10px;
+    }
+    
+    .btn {
+        padding: 8px 10px;
+        font-size: 0.85em;
+        min-height: 36px;
+    }
+}
+
+/* Très petit mobile */
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+        display: block;
+    }
+    
+    .container {
+        padding: 10px;
+        margin: 5px 0;
+    }
+    
+    .game-area {
+        padding: 10px;
+    }
+    
+    .bin-area {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    
+    .bin-card {
+        max-width: 85px;
+        padding: 4px;
+    }
+    
+    .bin-icon {
+        max-width: 35px;
+    }
+    
+    .bin-label {
+        font-size: 0.7em;
+        padding: 3px 4px;
+    }
+    
+    .items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    
+    .item {
+        padding: 6px 2px;
+        min-height: 65px;
+    }
+    
+    .item .icon img {
+        max-width: 30px;
+    }
+    
+    .item .name {
+        font-size: 9px;
+        line-height: 1.2;
+    }
+    
+    .header {
+        margin-bottom: 8px;
+    }
+    
+    .title {
+        font-size: 18px;
+    }
+    
+    .logo {
+        font-size: 35px;
+    }
+    
+    /* Boutons header plus compacts */
+    .header > div:last-child {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    
+    .header > div:last-child .btn {
+        padding: 6px 8px;
+        font-size: 0.8em;
+        min-width: 0;
+    }
+}
+
+/* Extra petit mobile */
+@media (max-width: 360px) {
+    .bin-area {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
+    }
+    
+    .bin-card {
+        max-width: 75px;
+        padding: 3px;
+    }
+    
+    .bin-icon {
+        max-width: 30px;
+    }
+    
+    .items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
+    }
+    
+    .item {
+        padding: 5px 2px;
+        min-height: 60px;
+    }
+    
+    .item .icon img {
+        max-width: 25px;
+    }
+    
+    .item .name {
+        font-size: 8px;
+    }
+    
+    .title {
+        font-size: 16px;
+    }
+    
+    .container {
+        padding: 8px;
+    }
+}
+
+/* Correction du body pour mobile */
+@media (max-width: 768px) {
+    body {
+        display: flex;
+        align-items: flex-start;
+        padding: 10px;
+        min-height: 100vh;
+        height: auto;
+        overflow-y: auto;
+    }
+    
+    .container {
+        margin: auto;
+    }
+}
+
+/* Amélioration du touch */
+.item, .bin-card, .btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Assurer que tout reste dans les limites */
+.container, .game-area, .bin-area, .items {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+        /* small polish */
+        #confettiCanvas{
+            position:fixed;
+            left:0;
+            top:0;
+            pointer-events:none;
+            width:100%;
+            height:100%;
+            z-index:999
+        }
+
+        .facts-popup {
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            width: 260px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            padding: 16px;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+            border-left: 6px solid #4caf50;
+            font-family: 'Comic Neue', cursive;
+        }
+
+        .facts-popup h4 {
+            font-family: 'Chewy';
+            color: #4caf50;
+            margin-bottom: 6px;
+        }
+
+        .facts-popup p {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .close-fact {
+            margin-top: 10px;
+            padding: 6px 14px;
+            border: none;
+            background: #4caf50;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile-specific improvements */
+        .touch-instruction {
+            display: none;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .touch-instruction {
+                display: block;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header">
+            <div class="logo">🐼</div>
+            <div class="title-box">
+                <div class="title">Recycling Champ</div>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;">
+                <button class="btn" onclick="startNewGame()"><i class="fas fa-redo"></i>&nbsp;New</button>
+                <button class="btn btn-sound" id="soundToggle" onclick="toggleSound()"><i class="fas fa-volume-up"></i></button>
+                <button class="btn" id="factsToggle" onclick="toggleFacts()">📘 Facts</button>
+            </div>
+        </div>
+
+        <div class="main">
+            <!-- game area -->
+            <div class="game-area">
+                <div class="section-title"><i class="fas fa-gamepad"></i>&nbsp;<div style="font-weight:800;margin-left:6px">Recycling Challenge</div></div>
+
+                <!-- bins -->
+                <div id="binArea" class="bin-area">
+            
+            <div class="bin-card bin-plastic" data-type="plastique" draggable="false">
+                <img class="bin-icon" 
+                     src="icons/plastic.png" 
+                     alt="Plastic Recycling Bin Icon" 
+                     onerror="this.style.display='none'; this.style.opacity='0.5';"
+                />
+                <div class="bin-label">Plastique</div>
+            </div>
+            
+            <div class="bin-card bin-paper" data-type="papier" draggable="false">
+               
+                <img class="bin-icon" 
+                     src="icons/paper-bin.png" 
+                     alt="Paper Recycling Bin Icon" 
+                     onerror="this.style.display='none'; this.style.opacity='0.5';"
+                />
+                <div class="bin-label">Papier</div>
+            </div>
+            
+            <div class="bin-card bin-glass" data-type="verre" draggable="false">
+                
+                <img class="bin-icon" 
+                     src="icons/glass-bin.png" 
+                     alt="Glass Recycling Bin Icon" 
+                     onerror="this.style.display='none'; this.style.opacity='0.5';"
+                />
+                <div class="bin-label">Verre</div>
+            </div>
+            
+            <div class="bin-card bin-food" data-type="compost" draggable="false">
+               
+                <img class="bin-icon" 
+                     src="icons/organic.png" 
+                     alt="Compost Bin Icon" 
+                     onerror="this.style.display='none'; this.style.opacity='0.5';"
+                />
+                <div class="bin-label">Compost</div>
+            </div>
+
+            <div class="bin-card bin-metal" data-type="metal" draggable="false">
+                <img class="bin-icon" 
+                    src="icons/metal (1).png" 
+                    alt="Metal Recycling Bin Icon" 
+                    onerror="this.style.display='none'; this.style.opacity='0.5';"
+                />
+                <div class="bin-label">Métal</div>
+            </div>
+            <div class="bin-card bin-trash" data-type="dechets" draggable="false">
+                
+                <img class="bin-icon" 
+                     src="icons/garbage.png" 
+                     alt="Trash Bin Icon" 
+                     onerror="this.style.display='none'; this.style.opacity='0.5';"
+                />
+                <div class="bin-label">Trash</div>
+            </div>
+
+            
+        </div>
+
+                <div id="feedback" class="feedback"></div>
+
+                <div class="items" id="items"></div>
+                
+                <div class="touch-instruction">
+                    On mobile: Tap an item, then tap a bin to sort it
+                </div>
+
+                <p style="margin-top:14px;color:var(--muted);text-align:center">Tip: Glissez un objet, déposez-le sur une poubelle. Correct → +10. Erroné → -5.</p>
+           
+                <div id="factsPopup" class="facts-popup" style="display:none;">
+                <h4>Fact</h4>
+                <p id="factsPopupText"></p>
+                <button class="close-fact" onclick="closeFact()">OK</button>
+</div>
+
+           
+            </div>
+
+            <!-- side panel - Now positioned to the right of the game area -->
+            <aside class="panel" id="factsPanel">
+                <h3><i class="fas fa-graduation-cap"></i> Facts & Progress</h3>
+
+                <div class="fact"><strong> Bouteilles en plastique</strong> Elles peuvent prendre des siècles à se décomposer. Recyclez-les !</div>
+                <div class="fact"><strong>Papier:</strong> Recycler le papier permet de créer de nouveaux cahiers et livres !</div>
+                <div class="fact"><strong>verre:</strong>Peut être recyclé indéfiniment sans perte de qualité.</div>
+                <div class="fact"><strong>Déchets alimentaires:</strong> Les restes de nourriture se transforment en engrais pour le jardin !</div>
+              
+
+                <div class="progress">
+                    <div>Score: <span class="score" id="score">0</span></div>
+                    <div class="stars" id="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+
+                <div class="controls">
+                    
+                    <button class="btn btn-primary" id="hint-btn" onclick="toggleHints()"><i class="fas fa-question"></i>&nbsp;Hints</button>
+                </div>
+
+                <div style="margin-top:10px;text-align:center"><small style="color:#666">Made with ♻️ for learning</small></div>
+            </aside>
+        </div>
+    </div>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <audio id="correctSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrongSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- ADD THIS NEW AUDIO ELEMENT FOR CLAPPING -->
+    <audio id="clappingSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-audience-clapping-strongly-476.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* --------- Data (items) --------- */
+        const TRASH = [
+            {name:'Pailles', type:'plastique', icon:'<img src="icons/straw.png" alt="Pailles">', fact:'Les pailles en plastique peuvent blesser les animaux marins. Utilise des pailles en papier !'},
+            {name:'Bouteille de shampoing', type:'plastique', icon:'<img src="icons/shampoo.png" alt="Shampoo">', fact:'Les bouteilles de shampoing vides peuvent devenir de nouveaux jouets en plastique !'},
+            {name:'Jouet cassé en plastique', type:'plastique', icon:'<img src="icons/rc-car.png" alt="Toy">', fact:'Les jouets en plastique se recyclent seulement dans les déchetteries spécialisées.'},
+            {name:'bouteille', type:'plastique', icon:'<img src="icons/plastic-bottle.png" alt="Bottle">', fact:'Une bouteille en plastique peut devenir un joli pull ou un nouveau jouet !'},
+            {name:'Sac', type:'plastique', icon:'<img src="icons/plastic-bag.png" alt="Bag">', fact:'Les sacs en plastique volent comme des ballons et polluent la nature. Utilise un sac réutilisable !'},
+            
+            {name:'Journal', type:'papier', icon:'<img src="icons/newspaper.png" alt="Newspaper">', fact:'Recycling paper saves trees and water.'},
+            {name:'Carton', type:'papier', icon:'<img src="icons/box (1).png" alt="Box">', fact:'Flatten cardboard to save space.'},
+            {name:'Feuille A4', type:'papier', icon:'<img src="icons/paper.png" alt="Feuille">', fact:'Le papier propre se recycle facilement et permet d"économiser beaucoup d"arbres.'},
+            {name:'Magazine', type:'papier', icon:'<img src="icons/magazine.png" alt="Mag">', fact:'Les magazines se recyclent, même avec des images et de la couleur.'},
+            {name:'Boîte de céréales', type:'papier', icon:'<img src="icons/cornflakes.png" alt="Céréales">', fact:'Les boîtes de céréales se transforment en nouveaux emballages !'},
+            {name:'Pizza Box', type:'papier', icon:'<img src="icons/pizza-box.png" alt="Pizza">', fact:'Les Pizza Boxes doivent être aplaties avant d"être recyclées.'},
+            
+            {name:'Pot cassé', type:'verre', icon:'<img src="icons/glass.png" alt="Glass">', fact:'Le verre se recycle à l infini!'},
+            {name:'Verre cassé', type:'verre', icon:'<img src="icons/verre-brise.png" alt="Glass">', fact:'Le verre cassé devient du nouveau verre pour faire des jolis pots !'},
+            {name:'Boule de neige', type:'verre', icon:'<img src="icons/snowball.png" alt="Boule de neige">', fact:'La boule de neige en verre peut être recyclée si on sépare bien toutes ses parties !'},
+
+
+            {name:'Pomme', type:'compost', icon:'<img src="icons/fruit (1).png" alt="Apple">', fact:'Les trognons de fruits deviennent de la bonne terre pour les plantes !'},
+            {name:'Banane', type:'compost', icon:'<img src="icons/banana.png" alt="Banana">', fact:'Les peaux de bananes nourrissent la terre du jardin. C est naturel !'},
+            {name:'Coquille d"œuf', type:'compost', icon:'<img src="icons/egg.png" alt="">', fact:'Les coquilles d"œuf enrichissent le compost en calcium.'},
+            {name:'Pastéque', type:'compost', icon:'<img src="icons/beach.png" alt="Watermelon">', fact:'Les arêtes de poisson se décomposent et nourrissent la terre naturellement !'},
+            {name:'Poisson', type:'compost', icon:'<img src="icons/fishbones.png" alt="Fish">', fact:'La peau de pastèque devient un délicieux repas pour le compost !'},
+
+            
+            {name:'Mouchoir utilisé', type:'dechets', icon:'<img src="icons/tissu.png" alt="Mouchoir">', fact:'Les mouchoirs usagés sont trop souillés pour être recyclés.'},
+            {name:'Masque chirurgical', type:'dechets', icon:'<img src="icons/medical-mask.png" alt="Mask">', fact:'Les masques chirurgicaux doivent aller à la poubelle normale car ils contiennent du plastique et des fibres.'},
+            {name:'Éponge', type:'dechets', icon:'<img src="icons/sponge.png" alt="Sponge">', fact:'Les éponges ne sont pas recyclables à cause de leurs matériaux composites.'},
+            {name:'Miroir cassé', type:'dechets', icon:'<img src="icons/mirror.png" alt="Miroir">', fact:'Les miroirs cassés ne se recyclent pas car ils ont un revêtement spécial. Attention aux doigts !'},
+        
+        
+            {name:'Canette de soda', type:'metal', icon:'<img src="icons/soda-can.png" alt="Soda Can">', fact:'Les canettes en aluminium se recyclent à 100% et peuvent devenir de nouvelles canettes en seulement 60 jours !'},
+            {name:'Boîte de thon', type:'metal', icon:'<img src="icons/tuna-can.png" alt="Tuna Can">', fact:'Les boîtes de thon en acier sont recyclables à l infini. Pensez à bien les rincer avant de les jeter !'},
+            {name:'Papier aluminium', type:'metal', icon:'<img src="icons/aluminium.jpg" alt="Foil">', fact:'Le papier aluminium propre peut être recyclé. Rassemblez-le en boule pour faciliter le tri !'},
+        ];  
+
+        /* --------- State --------- */
+        let score = 0;
+        let itemsState = [];
+        let itemsSolved = 0;
+        const totalItems = 8;
+        let showHintsFlag = false;
+        let factsVisible = true; // Start with facts visible
+        let soundEnabled = true; // Sound starts enabled
+
+        /* --------- DOM refs --------- */
+        const itemsEl = document.getElementById('items');
+        const binAreaEl = document.getElementById('binArea');
+        const scoreEl = document.getElementById('score');
+        const feedbackEl = document.getElementById('feedback');
+        const hintBtn = document.getElementById('hint-btn');
+        const starsEl = document.getElementById('stars');
+        const correctSound = document.getElementById('correctSound'); 
+        const wrongSound = document.getElementById('wrongSound'); 
+        const factsToggle = document.getElementById('factsToggle');
+        const soundToggle = document.getElementById('soundToggle');
+
+        function toggleFacts() {
+            const panel = document.getElementById("factsPanel");
+            factsVisible = !factsVisible;
+            
+            if (factsVisible) {
+                panel.style.display = "block";
+                factsToggle.textContent = "📘 Hide Facts";
+            } else {
+                panel.style.display = "none";
+                factsToggle.textContent = "📘 Facts";
+            }
+        }
+
+        // NEW FUNCTION TO TOGGLE SOUND
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            
+            if (soundEnabled) {
+                soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                soundToggle.classList.remove('muted');
+                setFeedback('Sound ON', 'fact', 6500);
+            } else {
+                soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                soundToggle.classList.add('muted');
+                setFeedback('Sound OFF', 'fact', 6500);
+            }
+        }
+
+        /* --------- Audio small effects --------- */
+        function playSound(name){
+            // Check if sound is disabled
+            if (!soundEnabled) return;
+            
+            try {
+                if(name === 'win') {
+                    playBeep(880,0.14);
+                    correctSound.currentTime = 0;
+                    correctSound.play().catch(e => console.log("Audio play failed:", e));
+                } else if(name === 'fail') {
+                    playBeep(220,0.12);
+                    wrongSound.currentTime = 0;
+                    wrongSound.play().catch(e => console.log("Audio play failed:", e));
+                } else {
+                    playBeep(460,0.06);
+                }
+            } catch(e) {
+                console.log("Audio error:", e);
+            }
+        }
+
+       
+
+        // Web Audio API beep function
+        let audioCtx;
+        function playBeep(freq = 440, duration = 0.08){
+            // Check if sound is disabled
+            if (!soundEnabled) return;
+            
+            try{
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.type = 'sine';
+                o.frequency.value = freq;
+                g.gain.value = 0.06;
+                o.connect(g); 
+                g.connect(audioCtx.destination);
+                o.start();
+                setTimeout(()=>o.stop(), duration*1000);
+            }catch(e){ 
+                console.log("Web Audio API not supported");
+            }
+        }
+
+        /* --------- Confetti (simple) --------- */
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        const ctx = confettiCanvas.getContext('2d');
+        function resizeCanvas(){ 
+            confettiCanvas.width = window.innerWidth; 
+            confettiCanvas.height = window.innerHeight; 
+        }
+        window.addEventListener('resize', resizeCanvas); 
+        resizeCanvas();
+
+        function burstConfetti(){
+            const pieces = [];
+            for(let i=0;i<40;i++){
+                pieces.push({
+                    x: Math.random()*window.innerWidth,
+                    y: -10,
+                    vx: (Math.random()-0.5)*6,
+                    vy: Math.random()*4+2,
+                    r: Math.random()*5+2,
+                    c: ['#ffd166','#ff6b6b','#4ecdc4','#556cd6'][Math.floor(Math.random()*4)]
+                });
+            }
+
+            let t = 0;
+            const anim = setInterval(()=>{
+                ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+                for(const p of pieces){
+                    p.x += p.vx; 
+                    p.y += p.vy; 
+                    p.vy += 0.12;
+                    ctx.fillStyle = p.c;
+                    ctx.beginPath();
+                    ctx.ellipse(p.x, p.y, p.r, p.r*0.7, Math.PI*0.2, 0, Math.PI*2);
+                    ctx.fill();
+                }
+                t++;
+                if(t>100){ 
+                    clearInterval(anim); 
+                    ctx.clearRect(0,0,window.innerWidth,window.innerHeight); 
+                }
+            },16);
+        }
+
+        /* --------- UI helpers --------- */
+        function setFeedback(text, type='fact', duration=2000){
+            feedbackEl.style.display = 'block';
+            feedbackEl.className = 'feedback ' + type;
+            feedbackEl.textContent = text;
+            setTimeout(()=>{ feedbackEl.style.display = 'none'; }, duration);
+        }
+
+        function updateScore(delta){
+            score = Math.max(0, score + delta);
+            scoreEl.textContent = score;
+            updateStars();
+        }
+
+        function updateStars(){
+            const stars = starsEl.querySelectorAll('i');
+            stars.forEach((s,i)=>{
+                s.style.color = (score >= (i+1)*30) ? '#ffd166' : '#ddd';
+            });
+        }
+
+        /* --------- Generate items --------- */
+        function shuffle(arr){ 
+            return arr.sort(()=>Math.random()-0.5); 
+        }
+
+        function generateItems(){
+            itemsEl.innerHTML = '';
+            itemsState = shuffle([...TRASH]).slice(0, totalItems);
+            itemsSolved = 0;
+
+            itemsState.forEach((it, idx) => {
+                const d = document.createElement('div');
+                d.className = 'item';
+                d.draggable = true;
+                d.dataset.index = idx;
+                d.dataset.type = it.type;
+
+                d.innerHTML = `<div class="icon">${it.icon}</div><div class="name">${it.name}</div>`;
+
+                d.addEventListener('dragstart', dragStart);
+                d.addEventListener('dragend', dragEnd);
+                d.addEventListener('touchstart', touchStart, {passive:false});
+
+                itemsEl.appendChild(d);
+            });
+        }
+
+        /* --------- Drag & touch support --------- */
+        let dragged = null;
+        let touchSelected = null;
+
+        function dragStart(e){
+            dragged = e.currentTarget;
+            e.dataTransfer?.setData('text/plain', dragged.dataset.index);
+            setTimeout(()=> dragged.classList.add('dragging'), 10);
+
+            // show hint border if hints active
+            if(showHintsFlag){
+                const correctType = dragged.dataset.type;
+                document.querySelectorAll('.bin-card').forEach(b => {
+                    if(b.dataset.type === correctType) {
+                        b.style.border = '3px dashed #ff6b6b';
+                    } else {
+                        // Keep original border colors
+                        const type = b.dataset.type;
+                        if(type === 'plastique') b.style.border = '3px solid #007bff';
+                        else if(type === 'papier') b.style.border = '3px solid #28a745';
+                        else if(type === 'verre') b.style.border = '3px solid #dc3545';
+                        else if(type === 'compost') b.style.border = '3px solid #ffc107';
+                        else if(type === 'dechets') b.style.border = '3px solid #343a40';
+                    }
+                });
+            }
+        }
+
+        function dragEnd(){
+            if(dragged) dragged.classList.remove('dragging');
+            dragged = null;
+            // clear hint borders and restore original borders
+            document.querySelectorAll('.bin-card').forEach(b => {
+                const type = b.dataset.type;
+                if(type === 'plastique') b.style.border = '3px solid #007bff';
+                else if(type === 'papier') b.style.border = '3px solid #28a745';
+                else if(type === 'verre') b.style.border = '3px solid #dc3545';
+                else if(type === 'compost') b.style.border = '3px solid #ffc107';
+                else if(type === 'dechets') b.style.border = '3px solid #343a40';
+            });
+        }
+
+        function touchStart(e){
+            e.preventDefault();
+            const el = e.currentTarget;
+            // clear previous
+            itemsEl.querySelectorAll('.item').forEach(i => i.classList.remove('selected'));
+            
+            // Restore all bin borders first
+            document.querySelectorAll('.bin-card').forEach(b => {
+                const type = b.dataset.type;
+                if(type === 'plastique') b.style.border = '3px solid #007bff';
+                else if(type === 'papier') b.style.border = '3px solid #28a745';
+                else if(type === 'verre') b.style.border = '3px solid #dc3545';
+                else if(type === 'compost') b.style.border = '3px solid #ffc107';
+                else if(type === 'dechets') b.style.border = '3px solid #343a40';
+            });
+
+            el.classList.add('selected');
+            touchSelected = el;
+
+            if(showHintsFlag){
+                const correctType = el.dataset.type;
+                document.querySelectorAll('.bin-card').forEach(b => {
+                    if(b.dataset.type === correctType) {
+                        b.style.border = '3px dashed #ff6b6b';
+                    }
+                });
+            }
+        }
+
+        // drop handlers for bins (drag + touch click)
+        function setupBinEventListeners(){
+            binAreaEl.querySelectorAll('.bin-card').forEach(bin => {
+                bin.addEventListener('dragover', e => { 
+                    e.preventDefault(); 
+                    bin.classList.add('drag-over'); 
+                });
+                
+                bin.addEventListener('dragleave', e => { 
+                    bin.classList.remove('drag-over'); 
+                });
+                
+                bin.addEventListener('drop', e => {
+                    e.preventDefault();
+                    bin.classList.remove('drag-over');
+                    const idx = e.dataTransfer?.getData('text/plain');
+                    handleDrop(idx, bin.dataset.type);
+                });
+
+                // click handler to support touch selection (tap item then tap bin)
+                bin.addEventListener('click', () => {
+                    if(touchSelected){
+                        handleDrop(touchSelected.dataset.index, bin.dataset.type);
+                        touchSelected.classList.remove('selected');
+                        touchSelected = null;
+                        // Restore all bin borders
+                        document.querySelectorAll('.bin-card').forEach(b => {
+                            const type = b.dataset.type;
+                            if(type === 'plastique') b.style.border = '3px solid #007bff';
+                            else if(type === 'papier') b.style.border = '3px solid #28a745';
+                            else if(type === 'verre') b.style.border = '3px solid #dc3545';
+                            else if(type === 'compost') b.style.border = '3px solid #ffc107';
+                            else if(type === 'dechets') b.style.border = '3px solid #343a40';
+                        });
+                    }
+                });
+            });
+        }
+
+        /* --------- Drop logic --------- */
+        function handleDrop(itemIndex, binType){
+            if(itemIndex === undefined || itemIndex === null) return;
+            const item = itemsState[itemIndex];
+            if(!item) return;
+
+            if(item.type === binType){
+                // correct
+                updateScore(10);
+                playSound('win');
+                burstConfetti();
+                setFeedback(`✅ bravo! ${item.name} → ${binType}`, 'correct', 4700);
+
+                // animate removal
+                const el = itemsEl.querySelector(`.item[data-index="${itemIndex}"]`);
+                if(el){
+                    el.animate([
+                        {opacity:1, transform:'scale(1)'},
+                        {opacity:0, transform:'scale(.5)'}
+                    ], {duration:400, easing:'ease'}).onfinish = () => el.remove();
+                }
+
+                // show fact after small delay
+                setTimeout(()=> setFeedback(`💡 Fact: ${item.fact}`, 'fact', 8000), 420);
+
+                itemsSolved++;
+                if(itemsSolved >= totalItems){
+                    setTimeout(()=> {
+                        setFeedback(`🎉 FÉLICITATIONS ! Zone nettoyée ! Score final : ${score}`, 'correct', 6000);
+                        burstConfetti();
+                         
+                    }, 600);
+                }
+
+            } else {
+                // wrong
+                updateScore(-5);
+                playSound('fail');
+                setFeedback(`❌ Oops! ${item.name} ne va pas dans ${binType}`, 'wrong', 4000);
+                // little shake
+                const el = itemsEl.querySelector(`.item[data-index="${itemIndex}"]`);
+                if(el){
+                    el.animate([
+                        {transform:'translateX(-6px)'},
+                        {transform:'translateX(6px)'},
+                        {transform:'translateX(0)'}
+                    ], {duration:300});
+                }
+            }
+        }
+
+        function showFact(text) {
+            const popup = document.getElementById("factsPopup");
+            const popupText = document.getElementById("factsPopupText");
+
+            popupText.textContent = text;
+            popup.style.display = "block";
+        }
+
+        function closeFact() {
+            document.getElementById("factsPopup").style.display = "none";
+        }
+
+
+        /* --------- Controls --------- */
+        function startNewGame(){
+            score = 0;
+            updateScore(0);
+            generateItems();
+            // reset hint visuals
+            if(showHintsFlag){
+                toggleHints(); 
+                toggleHints(); 
+            }
+        }
+
+        
+        function toggleHints(){
+            showHintsFlag = !showHintsFlag;
+            hintBtn.textContent = showHintsFlag ? 'Hide Hints' : 'Hints';
+            hintBtn.classList.toggle('active-hint', showHintsFlag);
+
+            // visually slightly emphasize bins when on
+            document.querySelectorAll('.bin-card').forEach(b => {
+                b.style.boxShadow = showHintsFlag ? '0 12px 24px rgba(0,0,0,0.06) inset' : '0 6px 10px rgba(0,0,0,0.06)';
+            });
+
+            setFeedback(showHintsFlag ? 'Hints ON' : 'Hints OFF', 'fact', 900);
+        }
+
+        /* --------- Initialize Game --------- */
+        function initGame(){
+            generateItems();
+            updateStars();
+            setupBinEventListeners();
+            
+            // Initialize facts panel as visible
+            document.getElementById("factsPanel").style.display = "block";
+            factsToggle.textContent = "📘 Hide Facts";
+            
+            // Initialize sound as enabled
+            soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+            soundToggle.classList.remove('muted');
+        }
+
+        // Start the game immediately when page loads
+        document.addEventListener('DOMContentLoaded', initGame);
+
+        
+
+    </script>
+</body>
+</html>
