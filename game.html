@@ -1184,56 +1184,56 @@
             });
         }
 
-        /* --------- Drop logic --------- */
         function handleDrop(itemIndex, binType){
-            if(itemIndex === undefined || itemIndex === null) return;
-            const item = itemsState[itemIndex];
-            if(!item) return;
+    if(itemIndex === undefined || itemIndex === null) return;
+    const item = itemsState[itemIndex];
+    if(!item) return;
 
-            if(item.type === binType){
-                // correct
-                updateScore(10);
-                playSound('win');
-                burstConfetti();
-                setFeedback(`✅ bravo! ${item.name} → ${binType}`, 'correct', 4700);
+    if(item.type === binType){
+        // correct
+        updateScore(10);
+        playSound('win');
+        burstConfetti();
+        setFeedback(`✅ Bravo ! ${item.name} → ${binType}`, 'correct', 2500);
 
-                // animate removal
-                const el = itemsEl.querySelector(`.item[data-index="${itemIndex}"]`);
-                if(el){
-                    el.animate([
-                        {opacity:1, transform:'scale(1)'},
-                        {opacity:0, transform:'scale(.5)'}
-                    ], {duration:400, easing:'ease'}).onfinish = () => el.remove();
-                }
-
-                // show fact after small delay
-                setTimeout(()=> setFeedback(`💡 Fact: ${item.fact}`, 'fact', 8000), 420);
-
-                itemsSolved++;
-                if(itemsSolved >= totalItems){
-                    setTimeout(()=> {
-                        setFeedback(`🎉 FÉLICITATIONS ! Zone nettoyée ! Score final : ${score}`, 'correct', 6000);
-                        burstConfetti();
-                         
-                    }, 600);
-                }
-
-            } else {
-                // wrong
-                updateScore(-5);
-                playSound('fail');
-                setFeedback(`❌ Oops! ${item.name} ne va pas dans ${binType}`, 'wrong', 4000);
-                // little shake
-                const el = itemsEl.querySelector(`.item[data-index="${itemIndex}"]`);
-                if(el){
-                    el.animate([
-                        {transform:'translateX(-6px)'},
-                        {transform:'translateX(6px)'},
-                        {transform:'translateX(0)'}
-                    ], {duration:300});
-                }
-            }
+        // animate removal
+        const el = itemsEl.querySelector(`.item[data-index="${itemIndex}"]`);
+        if(el){
+            el.animate([
+                {opacity:1, transform:'scale(1)'},
+                {opacity:0, transform:'scale(.5)'}
+            ], {duration:400, easing:'ease'}).onfinish = () => el.remove();
         }
+
+        // show fact after the first message disappears
+        setTimeout(()=> {
+            setFeedback(`💡 Le saviez-vous : ${item.fact}`, 'fact', 4000);
+        }, 2600); // 2.6 secondes après le premier message
+
+        itemsSolved++;
+        if(itemsSolved >= totalItems){
+            setTimeout(()=> {
+                setFeedback(`🎉 FÉLICITATIONS ! Niveau terminé ! Score : ${score}`, 'correct', 5000);
+                burstConfetti();
+            }, 3000);
+        }
+
+    } else {
+        // wrong
+        updateScore(-5);
+        playSound('fail');
+        setFeedback(`❌ Oups ! ${item.name} ne va pas dans ${binType}`, 'wrong', 3000);
+        // little shake
+        const el = itemsEl.querySelector(`.item[data-index="${itemIndex}"]`);
+        if(el){
+            el.animate([
+                {transform:'translateX(-6px)'},
+                {transform:'translateX(6px)'},
+                {transform:'translateX(0)'}
+            ], {duration:300});
+        }
+    }
+}
 
         function showFact(text) {
             const popup = document.getElementById("factsPopup");
@@ -1296,4 +1296,5 @@
 
     </script>
 </body>
+
 </html>
